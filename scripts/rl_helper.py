@@ -40,7 +40,7 @@ def wrap_env(env):
     env = Monitor(env, './video', force=True)
     return env
 
-def calc_qvals(rewards):
+def calc_qvals(rewards,GAMMA):
     res = []
     sum_r = 0.0
     for r in reversed(rewards):
