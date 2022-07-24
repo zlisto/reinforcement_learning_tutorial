@@ -10,6 +10,8 @@ Lecture 03 - Mountain Car and Q-Learning: [![Open In Colab](https://colab.resear
 
 Lecture 04 - Mountain Car and Q-Learning (you code): [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zlisto/reinforcement_learning_tutorial/blob/master/Lecture04_MountainCar_Qlearning.ipynb)
 
+Lecture 05 - Deep Q-Learning (you code): [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/zlisto/reinforcement_learning_tutorial/blob/master/Lecture05_Deep_Qlearning.ipynb)
+)
 
 
 
