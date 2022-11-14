@@ -1,5 +1,5 @@
 import gym
-from gym.wrappers import Monitor
+#from gym.wrappers import Monitor
 import glob
 import io
 import base64
@@ -37,7 +37,7 @@ def show_video():
 
 
 def wrap_env(env):
-    env = Monitor(env, './video', force=True)
+#    env = Monitor(env, './video', force=True)
     return env
 
 def calc_qvals(rewards,GAMMA):
