@@ -22,7 +22,7 @@ def show_video(env, agent = None, dpi = 72, interval = 20):
         action = env.action_space.sample()
       else:
         observation_tensor = torch.tensor([observation])
-        action = agent_trained(observation_tensor)[0][0]
+        action = agent(observation_tensor)[0][0]
       observation, reward, terminated, truncated , info = env.step(action) # Take action from DNN in actual training.
       display.clear_output(wait=True)
       img.append(env.render('rgb_array'))
