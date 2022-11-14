@@ -17,7 +17,7 @@ def show_video(env, agent = None, dpi = 72, interval = 20):
 
   img = []
   score = 0
-  for _ in range(100):
+  for _ in range(10000):
       if agent==None:
         action = env.action_space.sample()
       else:
