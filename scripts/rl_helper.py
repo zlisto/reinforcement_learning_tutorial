@@ -1,19 +1,50 @@
 import gym
-#from gym.wrappers import Monitor
-import glob
-import io
-import base64
-from IPython.display import HTML
+from IPython import display
 from pyvirtualdisplay import Display
-from IPython import display as ipythondisplay
+import matplotlib.pyplot as plt
+from matplotlib import animation
 
 
 
 
 
+#show_video from https://ymd_h.gitlab.io/ymd_blog/posts/gym_on_google_colab_with_gnwrapper/
+
+def show_video(env, agent = None, dpi = 72, interval = 20):
+  d = Display()
+  d.start()
+  observation = env.reset()
+
+  img = []
+  score = 0
+  for _ in range(100):
+      if agent==None:
+        action = env.action_space.sample()
+      else:
+        observation_tensor = torch.tensor([observation])
+        action = agent_trained(observation_tensor)[0][0]
+      observation, reward, terminated, truncated , info = env.step(action) # Take action from DNN in actual training.
+      display.clear_output(wait=True)
+      img.append(env.render('rgb_array'))
+      score+=reward
+      if terminated or truncated:
+          env.reset()
+          break
+
+  #dpi = 72
+  #interval = 20 # ms
+
+  plt.figure(figsize=(img[0].shape[1]/dpi,img[0].shape[0]/dpi),dpi=dpi)
+  patch = plt.imshow(img[0])
+  plt.axis=('off')
+  animate = lambda i: patch.set_data(img[i])
+  ani = animation.FuncAnimation(plt.gcf(),animate,frames=len(img),interval=interval)
+  display.display(display.HTML(ani.to_jshtml()))
+  return score
+  
 
 def query_environment(name):
-    env = gym.make(name)
+    env = gym.make(name,new_step_api = True)
     spec = gym.spec(name)
     print(f"Action Space: {env.action_space}")
     print(f"Observation Space: {env.observation_space}")
@@ -21,24 +52,6 @@ def query_environment(name):
     print(f"Nondeterministic: {spec.nondeterministic}")
     print(f"Reward Range: {env.reward_range}")
     print(f"Reward Threshold: {spec.reward_threshold}")
-
-def show_video():
-    mp4list = glob.glob('video/*.mp4')
-    if len(mp4list) > 0:
-        mp4 = mp4list[0]
-        video = io.open(mp4, 'r+b').read()
-        encoded = base64.b64encode(video)
-        ipythondisplay.display(HTML(data='''<video alt="test" autoplay 
-                controls style="height: 500px;">
-                <source src="data:video/mp4;base64,{0}" type="video/mp4" />
-             </video>'''.format(encoded.decode('ascii'))))
-    else:
-        print("Could not find video")
-
-
-def wrap_env(env):
-#    env = Monitor(env, './video', force=True)
-    return env
 
 def calc_qvals(rewards,GAMMA):
     res = []
